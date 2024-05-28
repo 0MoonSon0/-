@@ -24,26 +24,23 @@ namespace Проект
         {
             InitializeComponent();
 
-            // Создаем экземпляр AuthenticationManager, передаем путь к файлу с пользователями
+            //экземпляр AuthenticationManager
             _authManager = new AuthenticationManager("users.json");
 
-            // Подписка на события AuthenticationManager
+            // Подписка на события
             _authManager.UserAuthenticated += AuthManager_UserAuthenticated;            
             _authManager.AuthenticationFailed += AuthManager_AuthenticationFailed;
         }
-        //кнопка авторизации
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
         {
             string login = boxLogin.Text;
             string password = boxPassword.Password;
 
-            // Попытка аутентификации пользователя
             _authManager.AuthenticateUser(login, password);
 
         }
         private void AuthManager_UserAuthenticated(object sender, string username)
         {
-            //успешная авторизация, переход в маин вин
             MainWin mainWin = new MainWin();
             mainWin.Show();
             Hide();
@@ -51,13 +48,11 @@ namespace Проект
 
         private void AuthManager_AuthenticationFailed(object sender, string message)
         {
-            // Обработка ошибки аутентификации
             txtStatus.Text = $"Авторизация провалилась: {message}";
         }
 
         private void Button_Reg_Click(object sender, RoutedEventArgs e)
-        {
-            // переход в окно регистрации
+        {            
             MainWindow regWin = new MainWindow();
             regWin.Show();
             Hide();

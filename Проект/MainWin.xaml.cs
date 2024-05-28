@@ -11,9 +11,9 @@ namespace Проект
     /// </summary>
     public partial class MainWin : Window
     {
-        public ObservableCollection<TaskItem> tasks { get; set; } // коллекция задач
-        private List<TaskItem> task = new List<TaskItem>(); // список задач
-        private string jsonFilePath = "tasks.json"; //путь к файлу 
+        public ObservableCollection<TaskItem> tasks { get; set; } // коллекция
+        private List<TaskItem> task = new List<TaskItem>(); // список
+        private string jsonFilePath = "tasks.json";
 
 
         public MainWin()
@@ -23,31 +23,31 @@ namespace Проект
             tasks = new ObservableCollection<TaskItem>(); // Инициализация коллекции
             LoadTasksFromJson();
             UpdateTaskList();
-            // Добавление обработчика события закрытия окна
+           
             Closing += MainWin_Closing;
         }
 
         private void MainWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveTasksToJson(); // Сохранение задач при закрытии окна
+            SaveTasksToJson();
         }
 
-        private void LoadTasksFromJson()//метод выгрузки задач
+        private void LoadTasksFromJson()
         {
             if (File.Exists(jsonFilePath))
             {
-                string json = File.ReadAllText(jsonFilePath);//читаем сожержимое файла и сохраняем
+                string json = File.ReadAllText(jsonFilePath);
                 tasks = JsonConvert.DeserializeObject<ObservableCollection<TaskItem>>(json);//преобразуе строку в объект списка 
             }
         }
 
-        private void SaveTasksToJson()//метод сохранения задач
+        private void SaveTasksToJson()
         {
             string json = JsonConvert.SerializeObject(tasks);
             File.WriteAllText(jsonFilePath, json);
         }
 
-        private void UpdateTaskList()//метод обновления листа задач
+        private void UpdateTaskList()
         {
             taskListBox.Items.Refresh();
         }
@@ -70,6 +70,7 @@ namespace Проект
 
         private void RemoveTaskButton_Click(object sender, RoutedEventArgs e)
         {
+            // Получаем выбранную задачу из списка
             TaskItem selectedTask = taskListBox.SelectedItem as TaskItem;
             if (selectedTask != null)
             {
@@ -85,12 +86,11 @@ namespace Проект
 
         private void taskListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            TaskItem selectedTask = taskListBox.SelectedItem as TaskItem;
-            if (selectedTask != null)
-            {
-                MessageBox.Show($"Выбраная задача: {selectedTask.Name}");
-                // Здесь вы можете добавить код для вывода информации о выбранной задаче в другом месте вашего приложения
-            }
+            //TaskItem selectedTask = taskListBox.SelectedItem as TaskItem;
+            //if (selectedTask != null)
+            //{
+            //    MessageBox.Show($"Выбраная задача: {selectedTask.Name}");
+            //}
         }
     }
 
@@ -115,11 +115,11 @@ namespace Проект
             return Name; // Возвращаем значение свойства Name
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;//событие изменения свойства
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));//вызов события
         }
     }
 }
